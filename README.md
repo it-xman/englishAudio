@@ -318,7 +318,16 @@ export class UsersController {
 - 将项目转成TS项目
 
   - vue add typescript
+
     - 默认下去
+
+  - main.ts文件修改
+
+    ```
+    import './plugins/element.ts'  // 把element.js替换成element.ts
+    ```
+
+    
 
 - [vue-class-component](https://github.com/vuejs/vue-class-component)   `@Component 修饰符注明了此类为一个 Vue 组件`
 

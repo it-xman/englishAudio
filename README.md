@@ -311,6 +311,15 @@ export class UsersController {
 - 添加element
   - vue add typescript  // 一路默认
 
+- 添加路由
+
+  - vue add router  // 先不使用history模式
+
+- 将项目转成TS项目
+
+  - vue add typescript
+    - 默认下去
+
 - [vue-class-component](https://github.com/vuejs/vue-class-component)   `@Component 修饰符注明了此类为一个 Vue 组件`
 
   ```

@@ -131,6 +131,7 @@ export class UsersController {
     }
 }
 ```
+
 ## 要写接口文档，安装swagger包和ui包
 
 - `yarn add @nestjs/swagger swagger-ui-express`
@@ -191,14 +192,113 @@ export class UsersController {
   })
   ```
 
+### 创建课程模型(模型命名习惯用单数，模块控制器习惯用复数)
+
+- 实现一对多的关联
+
+  ```
+  import {modelOptions, prop, Ref} from "@typegoose/typegoose";
+  import {ApiProperty} from "@nestjs/swagger";
+  import {Episode} from "@libs/db/models/episode.model";
   
+  @modelOptions({
+      schemaOptions: {
+          timestamps: true
+      }
+  })
+  export class Course {
+      // 供swagger使用
+      @ApiProperty({
+          description: '课程名称'
+      })
+      
+      @prop()
+      name: string
+  
+      @ApiProperty({
+          description: '封面图'
+      })
+  
+      @prop()
+      cover: string
+  
+      @prop({ref: 'Episode'})
+      episodes: Ref<Episode>[]
+  
+  }
+  
+  ```
 
-## admin后台管理（server 同级）
+  ```
+  import {modelOptions, prop} from "@typegoose/typegoose";
+  
+  @modelOptions({
+      schemaOptions: {
+          timestamps: true
+      }
+  })
+  
+  export class Episode {
+  
+      @prop()
+      name: string
+  
+      @prop()
+      file: string
+  }
+  
+  ```
 
-`vue create admin`
+- 创建课程模块`nest g mo -p admin courses`
 
-- 使用ts开发vue
-- 加入element组件 `vue add element`
-- 加入路由`vue add router`
-- 转ts项目`vue add typescript`
+- 创建课程模块控制器`nest g co -p admin courses`
+
+- 创建课时模块`nest g mo -p admin episodes`
+
+- 创建课时模块控制器`nest g co -p admin episodes`
+
+- 在数据库模块引入新建的模型
+
+  ```
+  // courses.controller.ts
+  import {Controller} from '@nestjs/common';
+  import {Crud} from "nestjs-mongoose-crud";
+  import {Course} from "@libs/db/models/course.model";
+  import {ApiTags} from "@nestjs/swagger";
+  import {InjectModel} from "nestjs-typegoose";
+  import {ReturnModelType} from "@typegoose/typegoose";
+  
+  @Crud({
+      model: Course
+  })
+  @Controller('courses')
+  @ApiTags('课程')
+  export class CoursesController {
+      constructor(@InjectModel(Course) private readonly model: ReturnModelType<typeof Course>) {
+      }
+  }
+  ```
+
+  ```
+  // episodes.controller.ts
+  import {Controller} from '@nestjs/common';
+  import {Crud} from "nestjs-mongoose-crud";
+  import {Episode} from "@libs/db/models/episode.model";
+  import {ApiTags} from "@nestjs/swagger";
+  import {InjectModel} from "nestjs-typegoose";
+  import {ReturnModelType} from "@typegoose/typegoose";
+  
+  @Crud({
+      model: Episode
+  })
+  @Controller('episodes')
+  @ApiTags('课时')
+  export class EpisodesController {
+      constructor(@InjectModel(Episode) private readonly model: ReturnModelType<typeof Episode>) {
+      }
+  }
+  
+  ```
+
+  
 

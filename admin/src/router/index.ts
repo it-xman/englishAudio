@@ -12,6 +12,11 @@ const routes: RouteConfig[] = [
                 name: 'home',
                 path: '/',
                 component: () => import('@/views/Home.vue')
+            },
+            {
+                name: 'course-list',
+                path: '/courses/list',
+                component: () => import('@/views/courses/CourseList.vue')
             }
         ]
     }

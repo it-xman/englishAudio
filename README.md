@@ -351,4 +351,54 @@ export class UsersController {
   }
   ```
 
+- 添加路由的ts提示
+
+  ```
+  const routes: RouteConfig[] // 添加类型定义
+  ```
+
+#### 课程管理
+
+- 安装axios
+
+  ```
+  yarn add axios @types/axios
   
+  //前面 axios 后面代码提示
+  ```
+
+- 解决跨域
+
+  ```
+  //服务的main.ts加入
+  app.enableCors();
+  ```
+
+  
+
+
+
+
+
+```
+vts 
+
+<template>
+    <div>
+    </div>
+</template>
+
+<script lang="ts">
+    import {Component, Vue} from "vue-property-decorator";
+
+    @Component({})
+    export default class $value$ extends Vue {
+    }
+
+</script>
+
+<style>
+</style>
+
+```
+

@@ -4,7 +4,7 @@ import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
-
+    app.enableCors();
     const options = new DocumentBuilder()
         .setTitle('英语角后台管理API')
         .setDescription('供英语角后台管理界面调用的API')

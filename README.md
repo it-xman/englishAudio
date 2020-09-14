@@ -300,5 +300,36 @@ export class UsersController {
   
   ```
 
-  
+## admin后台管理(TS开发)
 
+#### 回到server同级目录
+
+- 创建admin项目`vue create admin` 选择默认
+
+#### 使用ts开发项目
+
+- vue add typescript
+
+-  [vue-class-component](https://github.com/vuejs/vue-class-component)   `@Component 修饰符注明了此类为一个 Vue 组件`
+
+  ```
+  import Vue from 'vue'
+  import Component from 'vue-class-component'
+  
+  // @Component 修饰符注明了此类为一个 Vue 组件
+  @Component({
+    // 所有的组件选项都可以放在这里
+    template: '<button @click="onClick">Click!</button>'
+  })
+  export default class MyComponent extends Vue {
+    // 初始数据可以直接声明为实例的 property
+    message: string = 'Hello!'
+  
+    // 组件方法也可以直接声明为实例的方法
+    onClick (): void {
+      window.alert(this.message)
+    }
+  }
+  ```
+
+  

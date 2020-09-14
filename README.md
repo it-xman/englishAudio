@@ -308,9 +308,10 @@ export class UsersController {
 
 #### 使用ts开发项目
 
-- vue add typescript
+- 添加element
+  - vue add typescript  // 一路默认
 
--  [vue-class-component](https://github.com/vuejs/vue-class-component)   `@Component 修饰符注明了此类为一个 Vue 组件`
+- [vue-class-component](https://github.com/vuejs/vue-class-component)   `@Component 修饰符注明了此类为一个 Vue 组件`
 
   ```
   import Vue from 'vue'

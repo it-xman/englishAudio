@@ -3,6 +3,8 @@ import App from './App.vue'
 import './plugins/element.ts'
 import router from './router'
 import axios from 'axios'
+import Eleform from 'vue-ele-form'
+Vue.use(Eleform)
 
 Vue.config.productionTip = false
 

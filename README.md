@@ -399,7 +399,13 @@ export class UsersController {
   })
   ```
 
-  
+### 动态生成表单组件(可直接用element的也可以自己封装)
+
+`vue-ele-form`
+
+### 给`<router-view :key="$router.path"></router-view>`加一个唯一key,以防同一组件显示不同的内容时，数据不会刷新
+
+- 可使用uuid库，使用uuid.v4()获取一个随机值
 
 
 

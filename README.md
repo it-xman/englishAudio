@@ -309,8 +309,9 @@ export class UsersController {
 #### 使用ts开发项目
 
 - 添加element
-  - vue add typescript  // 一路默认
-
+  
+- vue add typescript  // 一路默认
+  
 - 添加路由
 
   - vue add router  // 先不使用history模式
@@ -374,11 +375,37 @@ export class UsersController {
   app.enableCors();
   ```
 
+
+### 引入axios创建全局方法
+
+- 声明.d.ts文件
+
+  ```
+  import {AxiosInstance} from 'axios'
+  
+  declare module 'vue/types/vue' {
+      interface Vue {
+          $http: AxiosInstance
+      }
+  }
+  
+  ```
+
+- 创建全局方法
+
+  ```
+  Vue.prototype.$http = axios.create({
+    baseURL: 'http://localhost:3000'
+  })
+  ```
+
   
 
 
 
 
+
+### 快捷生成ts模板
 
 ```
 vts 

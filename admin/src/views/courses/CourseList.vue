@@ -15,8 +15,9 @@
         created() {
             this.fetch()
         }
+
         async fetch() {
-            const response = await this.$http.get('courses')
+            const response = await this.$http('courses')
             console.log(response.data)
             this.data = response.data
         }

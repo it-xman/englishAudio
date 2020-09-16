@@ -51,7 +51,7 @@
         }
 
         async submit(data: object) {
-            const url =  this.create ? 'courses' : `courses/${this.id}`
+            const url = this.create ? 'courses' : `courses/${this.id}`
             const method = this.create ? 'post' : 'put'
             await this.$http[method](url, data)
             this.$message.success('课程创建成功')

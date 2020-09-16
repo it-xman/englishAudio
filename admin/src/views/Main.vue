@@ -50,7 +50,7 @@
                         },
                         {
                             title: '课时管理',
-                            path: '/courses/episodes'
+                            path: '/episodes/list'
                         }
                     ]
                 },

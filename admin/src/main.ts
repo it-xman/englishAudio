@@ -9,11 +9,15 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$http = axios.create({
-  baseURL: 'http://localhost:3000'
+const http = axios.create({
+    baseURL: 'http://localhost:3000'
 })
 
+Vue.prototype.$httpajax = http
+
+Vue.prototype.$http = http
+
 new Vue({
-  router,
-  render: h => h(App)
+    router,
+    render: h => h(App)
 }).$mount('#app')

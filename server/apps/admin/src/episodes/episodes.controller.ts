@@ -19,7 +19,7 @@ export class EpisodesController {
         return {
             title: '课时管理',
             column: [
-                {prop: 'name', label: '课时名称', sortable: true}
+                {prop: 'name', label: '课时名称', sortable: true, search: true, regex: true}
             ]
         }
     }

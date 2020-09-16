@@ -9,6 +9,7 @@
                 :page="page"
                 @on-load="changePage"
                 @sort-change="changeSort"
+                @search-change="search"
                 v-if="option.column"
         >
         </avue-crud>
@@ -22,7 +23,9 @@
     export default class ResourceCrud extends Vue {
         @Prop(String) resource!: string
         data: any = {}
-        option: any = {}
+        option: any = {
+            searchMenuSpan: 8,
+        }
         page: any = {
             total: 0
         }
@@ -70,7 +73,7 @@
 
         async fetchOption() {
             const response = await this.$http.get(`${this.resource}/option`)
-            this.option = response.data
+            this.option = {...this.option, ...response.data}
         }
 
         async changePage({currentPage, pageSize}: any) {
@@ -88,7 +91,18 @@
                 }
             }
             await this.fetch()
+        }
 
+        async search(query: any, done: any) {
+            for (let key in query) {
+                const field = this.option.column.find((value: { prop: string; }) => value.prop === key)
+                if (field.regex) {
+                    query[key] = {$regex: query[key]}
+                }
+            }
+            this.query.where = query
+            await this.fetch()
+            done()
         }
     }
 

@@ -20,7 +20,8 @@ export class UsersController {
         return {
             title: '用户管理',
             column: [
-                {prop: 'username', label: '用户名'}
+                // sortable aVue添加这个字段可本地排序
+                {prop: 'username', label: '用户名', sortable: true}
             ]
         }
     }

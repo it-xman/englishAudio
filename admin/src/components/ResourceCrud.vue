@@ -10,6 +10,8 @@
                 @on-load="changePage"
                 @sort-change="changeSort"
                 @search-change="search"
+                :uploadBefore="uploadBefore"
+                v-model="obj"
                 v-if="option.column"
         >
         </avue-crud>
@@ -31,6 +33,8 @@
         }
 
         query: any = {}
+
+        obj: any = {}
 
         created() {
             this.fetch()
@@ -102,6 +106,16 @@
             }
             this.query.where = query
             await this.fetch()
+            done()
+        }
+
+        async uploadBefore(file: any, done: any) {
+            let params = new FormData()
+            params.append('file', file)
+            let res: any = await this.$http.post('upload', params, {
+                headers: {'Content-Type': 'multipart/form-data;charset=UTF-8'}
+            })
+            this.obj.cover = res.data.url
             done()
         }
     }

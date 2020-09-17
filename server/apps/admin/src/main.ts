@@ -1,10 +1,15 @@
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import {NestExpressApplication} from "@nestjs/platform-express";
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
     app.enableCors();
+    // 静态文件托管
+    app.useStaticAssets('uploads', {
+        prefix: '/uploads'
+    })
     const options = new DocumentBuilder()
         .setTitle('英语角后台管理API')
         .setDescription('供英语角后台管理界面调用的API')

@@ -1,20 +1,35 @@
 <template>
     <div>
-        <avue-crud
-                :data="data.data"
-                :option="option"
-                @row-save="create"
-                @row-update="update"
-                @row-del="del"
-                :page="page"
-                @on-load="changePage"
-                @sort-change="changeSort"
-                @search-change="search"
-                :uploadBefore="uploadBefore"
-                v-model="obj"
-                v-if="option.column"
+        <!--        <avue-crud-->
+        <!--                :data="data.data"-->
+        <!--                :option="option"-->
+        <!--                @row-save="create"-->
+        <!--                @row-update="update"-->
+        <!--                @row-del="del"-->
+        <!--                :page="page"-->
+        <!--                @on-load="changePage"-->
+        <!--                @sort-change="changeSort"-->
+        <!--                @search-change="search"-->
+        <!--                :uploadBefore="uploadBefore"-->
+        <!--                v-model="obj"-->
+        <!--                v-if="option.column"-->
+        <!--        >-->
+        <!--        </avue-crud>-->
+
+
+        <el-upload
+                class="avatar-uploader"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :on-change="getFile"
+                :http-request="submit"
+
         >
-        </avue-crud>
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+
     </div>
 </template>
 
@@ -36,9 +51,36 @@
 
         obj: any = {}
 
-        created() {
-            this.fetch()
-            this.fetchOption()
+        imageUrl = ''
+
+        file = null
+
+        getFile(file) {
+            this.file = file.raw;
+        }
+
+        handleAvatarSuccess(res, file) {
+            console.log(res)
+            console.log(file)
+            this.imageUrl = URL.createObjectURL(file.raw);
+        }
+
+        async submit() {
+            let params = new FormData()
+            params.append('file', this.file)
+
+            let res: any = await this.$http.post('upload', params, {
+                headers: {'Content-Type': 'multipart/form-data;charset=UTF-8'}
+            })
+
+            console.log(res)
+        }
+
+        async created() {
+            await this.fetch()
+            await this.fetchOption()
+
+            console.log(await this.$http.get(`mp3`))
         }
 
         async create(row: any, done: any) {
@@ -115,7 +157,7 @@
             let res: any = await this.$http.post('upload', params, {
                 headers: {'Content-Type': 'multipart/form-data;charset=UTF-8'}
             })
-            this.obj.cover = res.data.url
+            this.obj.cover = res.data
             done()
         }
     }
@@ -123,4 +165,31 @@
 </script>
 
 <style>
+
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+
+    .avatar {
+        width: 178px;
+        height: 178px;
+        display: block;
+    }
 </style>

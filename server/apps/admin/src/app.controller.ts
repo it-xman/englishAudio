@@ -1,6 +1,17 @@
-import {Controller, Get, Post, Req, UploadedFile, UseInterceptors} from '@nestjs/common';
+import {Controller, Get, Post, UploadedFile, UseInterceptors} from '@nestjs/common';
 import {AppService} from './app.service';
 import {FileInterceptor} from "@nestjs/platform-express";
+
+const Minio = require('minio')
+const minioClient = new Minio.Client({
+    endPoint: 'atlantide.top',
+    port: 9000,
+    useSSL: true,
+    accessKey: 'Ce7YgKFL73veLqEea',
+    secretKey: 'Wt3h2MThePHD2D9n5RdVquLdTeHd14vwT'
+});
+
+const path = require('path')
 
 @Controller()
 export class AppController {
@@ -12,11 +23,57 @@ export class AppController {
         return this.appService.getHello();
     }
 
+
+    @Get('mp3')
+    async search() {
+        var stream = minioClient.listObjects('mybucket', '', true)
+        let data =  stream.on('data', function (obj) {
+            console.log(obj)
+            return obj
+        })
+
+        let err =         stream.on('error', function (err) {
+            console.log(err)
+            return err
+        })
+
+        let arr = [
+            data, err
+
+        ]
+        return  Promise.all(arr)
+
+    }
+
+
     @Post('upload')
     @UseInterceptors(FileInterceptor('file'))
     async upload(@UploadedFile('file') file) {
+
+        console.log(file)
+
+
+        // let hasBucket = await minioClient.bucketExists('userimage');
+        //
+        // if (!hasBucket) {
+        //     await minioClient.makeBucket('userimage', 'cn-north-1')
+        // }
+        let metaData = {
+            'Content-Type': 'application/x-png',
+            'X-Amz-Meta-Testing': 1234,
+            'example': 5678
+        }
+        // let localPath = path.resolve(`./uploads/img/${file.filename}`)
+        //
+        //
+        await minioClient.putObject('userimage', file.originalname, file.buffer)
+        // if (!res) {
+        //     return {
+        //         err: '错误'
+        //     }
+        // }
         return {
-            url: `http://localhost:3000/uploads/${file.filename}`
+            url: await minioClient.presignedUrl('GET', 'userimage', file.originalname)
         }
     }
 

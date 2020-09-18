@@ -26,23 +26,7 @@ export class AppController {
 
     @Get('mp3')
     async search() {
-        var stream = minioClient.listObjects('mybucket', '', true)
-        let data =  stream.on('data', function (obj) {
-            console.log(obj)
-            return obj
-        })
-
-        let err =         stream.on('error', function (err) {
-            console.log(err)
-            return err
-        })
-
-        let arr = [
-            data, err
-
-        ]
-        return  Promise.all(arr)
-
+        return await minioClient.listBuckets()
     }
 
 
@@ -59,14 +43,14 @@ export class AppController {
         //     await minioClient.makeBucket('userimage', 'cn-north-1')
         // }
         let metaData = {
-            'Content-Type': 'application/x-png',
+            'Content-Type': `${file.mimetype}`,
             'X-Amz-Meta-Testing': 1234,
             'example': 5678
         }
         // let localPath = path.resolve(`./uploads/img/${file.filename}`)
         //
         //
-        await minioClient.putObject('userimage', file.originalname, file.buffer)
+        await minioClient.putObject('userimage', file.originalname, file.buffer, metaData)
         // if (!res) {
         //     return {
         //         err: '错误'

@@ -15,7 +15,6 @@
     "element-ui": "^2.4.5",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
-    "vue-ele-form": "^0.8.44",
     "vue-property-decorator": "^8.4.2",
     "vue-router": "^3.2.0"
   },

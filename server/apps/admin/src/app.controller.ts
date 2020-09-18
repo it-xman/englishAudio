@@ -1,6 +1,7 @@
 import {Controller, Get, Post, UploadedFile, UseInterceptors} from '@nestjs/common';
 import {AppService} from './app.service';
 import {FileInterceptor} from "@nestjs/platform-express";
+
 const Minio = require('minio')
 
 @Controller()
@@ -43,28 +44,29 @@ export class AppController {
         // console.log(file)
 
 
-        // let hasBucket = await minioClient.bucketExists('userimage');
-        //
-        // if (!hasBucket) {
-        //     await minioClient.makeBucket('userimage', 'cn-north-1')
-        // }
+        let hasBucket = await this.DB().bucketExists('userimage');
+
+        if (!hasBucket) {
+            await this.DB().makeBucket('userimage', 'cn-north-1')
+        }
         let metaData = {
             'Content-Type': `${file.mimetype}`,
             'X-Amz-Meta-Testing': 1234,
             'example': 5678
         }
-        // let localPath = path.resolve(`./uploads/img/${file.filename}`)
-        //
-        //
-        await this.DB().putObject('userimage', file.originalname, file.buffer, metaData)
-        // if (!res) {
-        //     return {
-        //         err: '错误'
-        //     }
-        // }
-        return {
-            url: await this.DB().presignedUrl('GET', 'userimage', file.originalname)
+
+        let res = await this.DB().putObject('userimage', file.originalname, file.buffer, metaData)
+        if (res) {
+            return {
+                url: await this.DB().presignedUrl('GET', 'userimage', file.originalname)
+            }
         }
+        return {
+            code: 404,
+            message: '服务没找到'
+        }
+
+
     }
 
 }

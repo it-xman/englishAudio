@@ -11,13 +11,25 @@ const models = TypegooseModule.forFeature([User, Course, Episode])
 @Global()
 @Module({
     imports: [
-        // 连接数据库
-        TypegooseModule.forRoot(`mongodb://localhost/englishRadio`, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true,
-            useFindAndModify: false
+        // 连接数据库  异步加载读取 process.env
+        TypegooseModule.forRootAsync({
+            useFactory() {
+                return {
+                    uri: process.env.DB,
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true,
+                    useCreateIndex: true,
+                    useFindAndModify: false
+                }
+            }
         }),
+
+        // TypegooseModule.forRoot(process.env.DB, {
+        //     useNewUrlParser: true,
+        //     useUnifiedTopology: true,
+        //     useCreateIndex: true,
+        //     useFindAndModify: false
+        // }),
         // 全局导入模型
         models
     ],

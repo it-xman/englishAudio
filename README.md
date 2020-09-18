@@ -415,6 +415,12 @@ export class UsersController {
 
 `yarn upgrade-interactive --latest`
 
+### 环境变量
+
+- 建立一个被忽略的文件
+
+
+
 
 
 ### 快捷生成ts模板

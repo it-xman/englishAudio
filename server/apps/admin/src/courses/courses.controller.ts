@@ -18,8 +18,9 @@ export class CoursesController {
     option() {
         return {
             title: '课程管理',
+            translate: false,
             column: [
-                {prop: 'name', label: '课程名称', sortable: true, search: true, regex: true, row: true},
+                {prop: 'name', label: '课程名称', sortable: true, search: true, regex: true, row: true, span: 24},
                 {prop: 'cover', label: '封面图', type: 'upload', listType: 'picture-img', row: true, action: '/upload'}
             ]
         }

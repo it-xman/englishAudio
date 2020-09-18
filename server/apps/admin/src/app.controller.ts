@@ -34,7 +34,7 @@ export class AppController {
     @UseInterceptors(FileInterceptor('file'))
     async upload(@UploadedFile('file') file) {
 
-        console.log(file)
+        // console.log(file)
 
 
         // let hasBucket = await minioClient.bucketExists('userimage');

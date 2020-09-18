@@ -409,7 +409,11 @@ export class UsersController {
 
 ### 表单CRUD组件
 
-S 
+
+
+### 手动更新最新版本
+
+`yarn upgrade-interactive --latest`
 
 
 

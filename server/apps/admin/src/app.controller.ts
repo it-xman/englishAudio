@@ -16,7 +16,7 @@ export class AppController {
             this.db = new Minio.Client({
                 endPoint: process.env.ENDPOINT,
                 port: parseInt(process.env.PORT),
-                useSSL: true,
+                useSSL: false,
                 accessKey: process.env.ACCESS_KeEY,
                 secretKey: process.env.SECRET_KEY
             })

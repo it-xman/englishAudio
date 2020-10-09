@@ -23,13 +23,6 @@ const models = TypegooseModule.forFeature([User, Course, Episode])
                 }
             }
         }),
-
-        // TypegooseModule.forRoot(process.env.DB, {
-        //     useNewUrlParser: true,
-        //     useUnifiedTopology: true,
-        //     useCreateIndex: true,
-        //     useFindAndModify: false
-        // }),
         // 全局导入模型
         models
     ],
